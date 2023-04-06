@@ -1,7 +1,6 @@
 # Clean Architecture TS
 
-<a href="https://codeclimate.com/github/ayocodingit/clean-architecture-ts/maintainability"><img src="https://api.codeclimate.com/v1/badges/386d765f6f1aa1b4a4c8/maintainability" /></a>
-<a href="https://codeclimate.com/github/ayocodingit/clean-architecture-ts/test_coverage"><img src="https://api.codeclimate.com/v1/badges/386d765f6f1aa1b4a4c8/test_coverage" /></a>
+<a href="https://codeclimate.com/github/fajarhikmal214/telegram-bot/maintainability"><img src="https://api.codeclimate.com/v1/badges/96d09d9fab7970bd7fa8/maintainability" /></a>
 
 Reference for implementation clean architecture:
 
@@ -13,7 +12,6 @@ Reference for implementation clean architecture:
 
 -   nodejs
 -   typescript
--   http (express default)
 -   database (mongo default)
 
 ## Get Started
@@ -21,7 +19,7 @@ Reference for implementation clean architecture:
 1. clone repository
 
 ```bash
-$ git clone git@github.com:ayocodingit/clean-architecture-ts.git
+$ https://github.com/fajarhikmal214/telegram-bot
 ```
 
 2. install node
