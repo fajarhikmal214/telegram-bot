@@ -1,4 +1,4 @@
-# Clean Architecture TS
+# Telegram Bot
 
 <a href="https://codeclimate.com/github/fajarhikmal214/telegram-bot/maintainability"><img src="https://api.codeclimate.com/v1/badges/96d09d9fab7970bd7fa8/maintainability" /></a>
 
