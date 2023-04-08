@@ -50,6 +50,7 @@
         "jsonwebtoken": "^9.0.0",
         "luxon": "^3.3.0",
         "mongoose": "^6.8.3",
+        "telegraf": "^4.12.2",
         "winston": "^3.8.2"
     }
 }

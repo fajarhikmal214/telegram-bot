@@ -12,4 +12,7 @@ export interface Config {
         username: string
         password: string
     }
+    bot: {
+        access_token: string
+    }
 }
