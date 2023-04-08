@@ -20,6 +20,9 @@ const config: Config = {
         username: env.DB_USERNAME,
         password: env.DB_PASSWORD,
     },
+    bot: {
+        access_token: env.TELEGRAM_BOT_ACCESS_TOKEN,
+    },
 }
 
 export default config

@@ -10,4 +10,5 @@ export default Joi.object({
     DB_HOST: Joi.string().required(),
     DB_USERNAME: Joi.string().required(),
     DB_PASSWORD: Joi.string().required(),
+    TELEGRAM_BOT_ACCESS_TOKEN: Joi.string().required(),
 })

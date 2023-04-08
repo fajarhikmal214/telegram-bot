@@ -11,18 +11,12 @@ class Mongo {
                 `mongodb+srv://${db.username}:${db.password}@${db.host}/?retryWrites=true&w=majority`
             )
             .then(() => {
-                logger.info('Connection to database established')
+                logger.info('🚀 Connection to database established')
             })
             .catch((e) => {
                 logger.error(e.message)
                 process.exit(-1)
             })
-    }
-
-    public static switch(database: string) {
-        return mongoose.connection.useDb(database, {
-            useCache: true,
-        })
     }
 }
 
