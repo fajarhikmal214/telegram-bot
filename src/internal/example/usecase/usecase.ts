@@ -232,6 +232,7 @@ class Usecase {
                 `The moderator on duty is ${moderator.username}`
             )
 
+            await this.sendEmoji(ctx, moderator.emoji)
             return
         }
 
@@ -250,11 +251,7 @@ class Usecase {
             `The moderator on duty is ${userOnDuty[0].username}`
         )
 
-        const emoji =
-            userOnDuty[0].emoji ??
-            'https://media.giphy.com/media/YyKPbc5OOTSQE/giphy.gif'
-
-        this.bot.telegram.sendSticker(ctx.chat.id, emoji)
+        await this.sendEmoji(ctx, userOnDuty[0].emoji)
     }
 
     private async func_next_or_skip(ctx: any, isSkip: boolean = false) {
@@ -297,6 +294,8 @@ class Usecase {
             ctx.chat.id,
             `The moderator on duty is ${userOnDuty.username}`
         )
+
+        await this.sendEmoji(ctx, userOnDuty.emoji)
     }
 
     private async func_force_next(username: string) {
@@ -348,6 +347,13 @@ class Usecase {
         this.bot.telegram.sendMessage(
             ctx.chat.id,
             `✅ Moderator queue checkins reset`
+        )
+    }
+
+    private async sendEmoji(ctx: any, emoji?: string) {
+        await this.bot.telegram.sendSticker(
+            ctx.chat.id,
+            emoji ?? 'https://media.giphy.com/media/YyKPbc5OOTSQE/giphy.gif'
         )
     }
 }
