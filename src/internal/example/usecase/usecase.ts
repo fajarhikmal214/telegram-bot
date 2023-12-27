@@ -105,7 +105,7 @@ class Usecase {
         this.bot.command('next', async (ctx) => {
             this.logger.info(ctx.from)
 
-            await this.func_next(ctx)
+            await this.func_next_or_skip(ctx)
         })
     }
 
@@ -113,7 +113,7 @@ class Usecase {
         this.bot.command('skip', async (ctx) => {
             this.logger.info(ctx.from)
 
-            await this.func_skip(ctx)
+            await this.func_next_or_skip(ctx, true)
         })
     }
 
@@ -138,7 +138,7 @@ class Usecase {
         message +=
             '- /next <username> : Choose other moderator checkins with tagging previous person is queued \n'
         message +=
-            '- /skip : Skip and choose other moderator checkins without tagging previous person is queued \n'
+            '- /skip <username> : Skip and choose other moderator checkins without tagging previous person is queued \n'
         message += '- /reset : Reset queue for moderator checkins \n'
 
         await this.bot.telegram.sendMessage(ctx.chat.id, message)
@@ -249,43 +249,25 @@ class Usecase {
             ctx.chat.id,
             `The moderator on duty is ${userOnDuty[0].username}`
         )
+
+        const emoji =
+            userOnDuty[0].emoji ??
+            'https://media.giphy.com/media/YyKPbc5OOTSQE/giphy.gif'
+
+        this.bot.telegram.sendSticker(ctx.chat.id, emoji)
     }
 
-    private async func_skip(ctx: any) {
-        const moderator = await Checkin.findOne({ on_duty: true })
-        if (moderator) {
-            // Update as a finished member
-            await Checkin.updateOne(
-                { username: moderator.username },
-                { on_duty: false }
-            )
-        }
-
-        const userOnDuty = await Checkin.aggregate([
-            { $match: { finished: false } },
-            { $sample: { size: 1 } },
-        ]).exec()
-
-        await Checkin.updateOne(
-            { username: userOnDuty[0].username },
-            { on_duty: true }
-        )
-
-        this.bot.telegram.sendMessage(
-            ctx.chat.id,
-            `The moderator on duty is ${userOnDuty[0].username}`
-        )
-    }
-
-    private async func_next(ctx: any) {
+    private async func_next_or_skip(ctx: any, isSkip: boolean = false) {
         await this.func_isAnyoneLeft(ctx)
 
         const moderator = await Checkin.findOne({ on_duty: true })
+        const finishedValue = isSkip ? false : true
+
         if (moderator) {
             // Update as a finished member
             await Checkin.updateOne(
                 { username: moderator.username },
-                { on_duty: false, finished: true }
+                { on_duty: false, finished: finishedValue }
             )
         }
 
@@ -302,7 +284,7 @@ class Usecase {
         }
 
         if (!userOnDuty) {
-            await this.func_next(ctx)
+            await this.func_next_or_skip(ctx, isSkip)
             return
         }
 
@@ -356,6 +338,7 @@ class Usecase {
         users.forEach((user) => {
             checkin.push({
                 username: user.username,
+                emoji: user.emoji,
                 finished: false,
             })
         })

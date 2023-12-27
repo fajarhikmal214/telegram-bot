@@ -4,6 +4,7 @@ export interface ICheckin extends Document {
     username: string
     on_duty?: boolean
     finished?: boolean
+    emoji?: string
 }
 
 const schema: Schema<ICheckin> = new Schema({
@@ -18,6 +19,9 @@ const schema: Schema<ICheckin> = new Schema({
     finished: {
         type: Boolean,
         default: false,
+    },
+    emoji: {
+        type: String,
     },
 })
 
