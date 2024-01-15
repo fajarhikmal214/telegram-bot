@@ -351,10 +351,9 @@ class Usecase {
     }
 
     private async sendEmoji(ctx: any, emoji?: string) {
-        await this.bot.telegram.sendSticker(
-            ctx.chat.id,
-            emoji ?? 'https://media.giphy.com/media/YyKPbc5OOTSQE/giphy.gif'
-        )
+        if (!emoji) return
+
+        await this.bot.telegram.sendSticker(ctx.chat.id, emoji)
     }
 }
 
