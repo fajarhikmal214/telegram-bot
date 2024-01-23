@@ -361,7 +361,7 @@ class Usecase {
     }
 
     private async func_random(ctx: any) {
-        const number = ctx.update.message.text.split(' ')?.slice(1, 2)[0] ?? 7
+        const number = Number(ctx.update.message.text.split(' ')) ?? 7
 
         const users = await User.aggregate([{ $sample: { size: number } }])
 
