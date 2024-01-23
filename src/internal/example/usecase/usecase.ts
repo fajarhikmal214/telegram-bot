@@ -365,9 +365,8 @@ class Usecase {
             ctx.update.message.text.split(' ')?.slice(1, 2)
         )
 
-        const users = await User.aggregate([
-            { $sample: { size: numberInput ?? 7 } },
-        ])
+        const size = !!numberInput ? numberInput : 7
+        const users = await User.aggregate([{ $sample: { size } }])
 
         if (!users.length) {
             await this.bot.telegram.sendMessage(
