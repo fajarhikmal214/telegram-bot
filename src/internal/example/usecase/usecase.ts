@@ -30,6 +30,8 @@ class Usecase {
         this.skip()
         this.reset()
 
+        this.random()
+
         this.bot.launch()
         this.logger.info(`🚀 Bot launched`)
 
@@ -122,6 +124,14 @@ class Usecase {
             this.logger.info(ctx.from)
 
             await this.func_reset(ctx)
+        })
+    }
+
+    private random() {
+        this.bot.command('random', async (ctx) => {
+            this.logger.info(ctx.from)
+
+            await this.func_random(ctx)
         })
     }
 
@@ -348,6 +358,32 @@ class Usecase {
             ctx.chat.id,
             `✅ Moderator queue checkins reset`
         )
+    }
+
+    private async func_random(ctx: any) {
+        const number = ctx.update.message.text.split(' ')?.slice(1, 2)[0] ?? 7
+
+        const users = await User.aggregate([{ $sample: { size: number } }])
+
+        if (!users.length) {
+            await this.bot.telegram.sendMessage(
+                ctx.chat.id,
+                "😔 There's no one on the list"
+            )
+
+            return
+        }
+
+        let message =
+            'This is the list of users who will be checking in today \n\n'
+
+        message += users
+            .map(
+                (user, index) => `${index + 1}. ${user.name} (${user.username})`
+            )
+            .join('\n')
+
+        await this.bot.telegram.sendMessage(ctx.chat.id, message)
     }
 
     private async sendEmoji(ctx: any, emoji?: string) {
