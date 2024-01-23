@@ -361,10 +361,13 @@ class Usecase {
     }
 
     private async func_random(ctx: any) {
-        const number =
-            Number(ctx.update.message.text.split(' ')?.slice(1, 2)) ?? 7
+        const numberInput = Number(
+            ctx.update.message.text.split(' ')?.slice(1, 2)
+        )
 
-        const users = await User.aggregate([{ $sample: { size: number } }])
+        const users = await User.aggregate([
+            { $sample: { size: numberInput ?? 7 } },
+        ])
 
         if (!users.length) {
             await this.bot.telegram.sendMessage(
